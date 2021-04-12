@@ -20,9 +20,7 @@ public class RoleService {
         List<Role> role = new ArrayList<Role>();
         Role r = new Role();
         Role r2d2 = new Role();
-        r.setId((long) 1);
         r.setRoleName("Customer");
-        r2d2.setId((long) 2);
         r2d2.setRoleName("Seller");
         this.repository.save(r);
         this.repository.save(r2d2);

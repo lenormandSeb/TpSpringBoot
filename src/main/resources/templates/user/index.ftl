@@ -13,12 +13,12 @@
             <tr>
             <#list items as item>
                 <td> ${item.firstName} - ${item.lastName} - ${item.id}</td>
-                <td> Customer </td>
-                <td> 124 </td>
+                <td> ${item.getRole().getRoleName()} </td>
+                <td> 0 </td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-info" href="../user/show/${item.id}">Voir</a>
-                        <a class="btn btn-warning">Changer de role</a>
+                        <a class="btn btn-warning">Se connecter</a>
                         <a class="btn btn-secondary">Voir les livres</a>
                         <a class="btn btn-danger">Supprimer</a>
                     </div>

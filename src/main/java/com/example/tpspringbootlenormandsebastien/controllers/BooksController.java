@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(BooksController.BASE_ROUTE)
 public class BooksController extends BaseCrudController<Books> {
     
-    public static final String BASE_ROUTE = "book";
-    public static final String TEMPLATE_NAME = "book";
+    public static final String TEMPLATE_NAME = "books";
+    public static final String BASE_ROUTE = "books";
 
     public BooksController()
     {

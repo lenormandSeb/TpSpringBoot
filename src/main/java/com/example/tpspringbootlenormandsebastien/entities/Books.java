@@ -1,5 +1,8 @@
 package com.example.tpspringbootlenormandsebastien.entities;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -32,7 +35,8 @@ public class Books extends BaseEntity{
     }
 
     public Float getPrice() {
-        return this.price;
+        BigDecimal bigDecimal = new BigDecimal(Float.toString(this.price));
+        return bigDecimal.setScale(2, RoundingMode.HALF_UP).floatValue();
     }
 
     public void setPrice(Float price) {

@@ -9,7 +9,7 @@
             <div class="navbar-nav">
             <a class="nav-item nav-link active" href="../user/index">User <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="../role/index">Role</a>
-            <a class="nav-item nav-link" href="../book/index">Books</a>
+            <a class="nav-item nav-link" href="../books/index">Books</a>
             </div>
         </div>
     </nav>
