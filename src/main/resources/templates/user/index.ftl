@@ -1,6 +1,13 @@
 <#include "../header.ftl"/>
-<#assign i = items?size>
 <h1>Bienvenue sur la page des users</h1>
+<#if errors??>
+    ${errors}    
+</#if>
+<#if MonCookie??>
+    ${MonCookie}
+</#if>
+<#if items??>
+<#assign i = items?size>
     <div class="table table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -31,5 +38,5 @@
             </tfooter>
         </table>
     </div>
-
+</#if>
 <#include "../footer.ftl"/>

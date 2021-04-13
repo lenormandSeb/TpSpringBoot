@@ -2,6 +2,10 @@ package com.example.tpspringbootlenormandsebastien.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.example.tpspringbootlenormandsebastien.entities.BaseEntity;
 import com.example.tpspringbootlenormandsebastien.entities.Livres;
 import com.example.tpspringbootlenormandsebastien.entities.Role;
@@ -16,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 public abstract class BaseCrudController<T extends BaseEntity, DTO>{
 
@@ -23,7 +28,7 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
     protected static final String CREATE_ROUTE = "/create";
     protected static final String DETAILS_ROUTE = "/show/{id}";
     protected static final String DETAILS_TEMPLATE = "/show";
-    protected static final String CONNECT_ROUTE = "/connect/${id}";
+    protected static final String LOGOUT_ROUTE = "/logout";
     private final String REDIRECT_INDEX;
     private final String TEMPLATE_NAME;
 
@@ -55,7 +60,18 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
     }
 
     @GetMapping(value = {"", "/", "/index"})
-    public String index(final Model model) {
+    public String index(final Model model, final HttpServletRequest request, final RedirectAttributes attributes) {
+        if(attributes.getFlashAttributes().containsKey("errors")) {
+            model.addAttribute("errors", attributes.getFlashAttributes().get("errors"));
+        }
+        
+        if (request.getCookies() != null) {
+            for(Cookie cookie : request.getCookies()) {
+                if(cookie.getName().equals("userid")) {
+                    model.addAttribute("MonCookie", cookie.getValue());
+                }
+            }
+        }
         if(repository.findAll().size() == 0 && TEMPLATE_NAME == "user")
         {
             model.addAttribute("count", 0);
@@ -66,6 +82,15 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
         model.addAttribute("items", repository.findAll());
 
         return "/" + TEMPLATE_NAME + INDEX_ROUTE;
+    }
+
+    @GetMapping(value = {LOGOUT_ROUTE})
+    public String logOut(final HttpServletResponse response) {
+        Cookie deleteCookie = new Cookie("userid", null);
+        deleteCookie.setMaxAge(0);
+        response.addCookie(deleteCookie);
+
+        return "redirect:" + "/" + "user" + "/create";
     }
 
     @GetMapping(value = {DETAILS_ROUTE})

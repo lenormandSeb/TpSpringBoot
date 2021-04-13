@@ -1,11 +1,16 @@
 package com.example.tpspringbootlenormandsebastien.controllers;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import com.example.tpspringbootlenormandsebastien.dtos.UserDto;
 import com.example.tpspringbootlenormandsebastien.entities.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(UserController.BASE_ROUTE)
@@ -13,6 +18,8 @@ public class UserController extends BaseCrudController<User, UserDto> {
     
     public static final String TEMPLATE_NAME = "user";
     public static final String BASE_ROUTE = "user";
+    protected static final String CONNECT_ROUTE = "/connect/{id}";
+    protected static final String FLASH_ERROR = "errors";
     public UserController()
     {
         super(TEMPLATE_NAME);
@@ -20,6 +27,17 @@ public class UserController extends BaseCrudController<User, UserDto> {
 
     @Override
     public void preIndex(Model model) {
+    }
+
+    @GetMapping(value = {CONNECT_ROUTE})
+    public String connectAsUser(@PathVariable final Long id, final Model model, final HttpServletResponse response, final RedirectAttributes attributes)
+    {
+        try {
+            response.addCookie(new Cookie("userid", "user-id:" + id));   
+        } catch (Exception e) {
+            attributes.addFlashAttribute(FLASH_ERROR, e.getMessage());
+        }
+        return "redirect:" + "/" + "user" + "/index";
     }
 
     @GetMapping(value = "/donjonDeNaheulbeuk")
