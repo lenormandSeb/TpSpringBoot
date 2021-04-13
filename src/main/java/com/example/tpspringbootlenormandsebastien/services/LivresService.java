@@ -4,30 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.example.tpspringbootlenormandsebastien.entities.Books;
-import com.example.tpspringbootlenormandsebastien.repositories.BooksRepository;
+import com.example.tpspringbootlenormandsebastien.entities.Livres;
+import com.example.tpspringbootlenormandsebastien.repositories.LivresRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BooksService {
+public class LivresService {
     @Autowired
-    private BooksRepository repository;
+    private LivresRepository repository;
 
-    public List<Books> generateBook()
+    public List<Livres> generateBook()
     {
-        List<Books> book = new ArrayList<Books>();
+        List<Livres> book = new ArrayList<Livres>();
         Random rand = new Random();
         int i = rand.nextInt(42);
         for(int j = 0; j < i; j++)
         {
-            Books bok = new Books();
+            Livres bok = new Livres();
             bok.setBookName("Mon Super Livre Tome " + j);
             int nPage = rand.nextInt(600);
             bok.setNbPage(nPage);
             float price = rand.nextFloat() * 100;
             bok.setPrice(price);
+            bok.setImg("histoiresansfin.jpg");
             this.repository.save(bok);
             book.add(bok);
         }
@@ -35,7 +36,7 @@ public class BooksService {
         
     }
 
-    public List<Books> findAll()
+    public List<Livres> findAll()
     {
         return this.repository.findAll();
     }

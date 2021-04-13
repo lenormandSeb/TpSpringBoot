@@ -34,4 +34,8 @@ public class RoleService {
     {
         return this.repository.findAll();
     }
+
+    public Role findRole(final Long id) {
+        return this.repository.findById(id).orElseGet(null);
+    }
 }

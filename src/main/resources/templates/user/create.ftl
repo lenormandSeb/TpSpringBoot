@@ -1,6 +1,6 @@
 <#include "../header.ftl"/>
 <h2>Creation d'un nouvel utilisateur</h2>
-<form>
+<form method="POST">
     <div class="form-group">
         <label for="firstName">Firstname</label>
         <input class="form-control" type="text" placeholder="firstname" name="firstName"/>
@@ -19,10 +19,7 @@
         </select>
     </div>
     <div class="form-group">
-        <div class="btn-group">
-            <button class="btn btn-success">Valider</button>
-            <button class="btn btn-danger">Annuler</button>
-        </div>
+        <#include "../macro/btnForm.ftl"/>
     </div>
 </form>
 <#include "../footer.ftl"/>

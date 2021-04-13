@@ -3,7 +3,7 @@
     <p>Il semblerais qu'il n'y ai pas de donnée !!!</p>
     <p>Si tu as besoin de donnée, appuie sur le bouton qui suit !</p>
 
-    <a class="btn btn-success">C'est celui la le bouton</a>
+    <a class="btn btn-success" href="../user/updateData">C'est celui la le bouton</a>
 
     <p>Sinon appuie sur le bouton qui suit</p>
     <a class="btn btn-danger" href="../user/donjonDeNaheulbeuk">Je n'ai pas besoin de donnée</a>

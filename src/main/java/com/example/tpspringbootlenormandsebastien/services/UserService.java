@@ -1,12 +1,11 @@
 package com.example.tpspringbootlenormandsebastien.services;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
-import com.example.tpspringbootlenormandsebastien.entities.Books;
+import com.example.tpspringbootlenormandsebastien.dtos.RoleCount;
+import com.example.tpspringbootlenormandsebastien.entities.Livres;
 import com.example.tpspringbootlenormandsebastien.entities.Role;
 import com.example.tpspringbootlenormandsebastien.entities.User;
 import com.example.tpspringbootlenormandsebastien.repositories.UserRepository;
@@ -20,7 +19,7 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public List<User> generateUser(List<Role> role, List<Books> book)
+    public List<User> generateUser(List<Role> role, List<Livres> book)
     {
         List<User> user = new ArrayList<User>();
         Random rand = new Random();
@@ -49,14 +48,14 @@ public class UserService {
         return this.repository.findAll();
     }
 
-    public Map<String, Integer> getUserByRole()
+    public List<RoleCount> getUserByRole()
     {
-        Map<String, Integer> hm = new HashMap<String, Integer>();
-        List<User> users = this.repository.findAll();
-        for(User user : users){
-            Integer j = hm.get(user.getRole().getRoleName());
-            hm.put(user.getRole().getRoleName(), (j == null) ? 1 : j + 1);
-        }
-        return hm;
+        List<RoleCount> user = this.repository.findAllGroupByRole();
+        return user;
+    }
+
+    public List<User> getRoleGetUser(Long id) {
+        List<User> users = this.repository.findUserWithRole(id);
+        return users;
     }
 }

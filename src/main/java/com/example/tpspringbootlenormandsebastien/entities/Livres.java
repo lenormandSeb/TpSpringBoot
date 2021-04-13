@@ -7,7 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class Books extends BaseEntity{
+public class Livres extends BaseEntity{
     
     @Column(nullable = false)
     private String bookName;
@@ -17,6 +17,17 @@ public class Books extends BaseEntity{
 
     @Column(nullable = false)
     private Float price;
+
+    @Column(nullable = true)
+    private String img;
+
+    public String getImg() {
+        return this.img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public String getBookName() {
         return this.bookName;
