@@ -33,7 +33,11 @@ public class UserController extends BaseCrudController<User, UserDto> {
     public String connectAsUser(@PathVariable final Long id, final Model model, final HttpServletResponse response, final RedirectAttributes attributes)
     {
         try {
-            response.addCookie(new Cookie("userid", "user-id:" + id));   
+            Cookie cookie = new Cookie("userid", "user-id:" + id);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setMaxAge(3600);
+            response.addCookie(cookie);   
         } catch (Exception e) {
             attributes.addFlashAttribute(FLASH_ERROR, e.getMessage());
         }

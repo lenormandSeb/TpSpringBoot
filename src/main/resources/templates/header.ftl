@@ -11,7 +11,7 @@
             <a class="nav-item nav-link" href="../role/index">Role</a>
             <a class="nav-item nav-link" href="../livres/index">Livres</a>
             <#if MonCookie??>
-            <a class="nav-item nav-link" href="logout" title="don't touch it!">Log out</a>
+            <a class="nav-item nav-link" href="/logout" title="don't touch it!">Log out</a>
             </#if>
             </div>
         </div>

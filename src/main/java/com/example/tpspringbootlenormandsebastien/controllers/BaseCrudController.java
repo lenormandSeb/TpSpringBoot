@@ -68,7 +68,7 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
         if (request.getCookies() != null) {
             for(Cookie cookie : request.getCookies()) {
                 if(cookie.getName().equals("userid")) {
-                    model.addAttribute("MonCookie", cookie.getValue());
+                    model.addAttribute("userid", cookie.getValue());
                 }
             }
         }
@@ -90,7 +90,7 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
         deleteCookie.setMaxAge(0);
         response.addCookie(deleteCookie);
 
-        return "redirect:" + "/" + "user" + "/create";
+        return "redirect:" + "/" + "user" + "/index";
     }
 
     @GetMapping(value = {DETAILS_ROUTE})
