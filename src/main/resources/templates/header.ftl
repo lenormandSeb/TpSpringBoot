@@ -10,9 +10,7 @@
             <a class="nav-item nav-link active" href="../user/index">User <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="../role/index">Role</a>
             <a class="nav-item nav-link" href="../livres/index">Livres</a>
-            <#if MonCookie??>
-            <a class="nav-item nav-link" href="/logout" title="don't touch it!">Log out</a>
-            </#if>
+            <a class="nav-item nav-link" href="../user/logout" title="don't touch it!">Log out</a>
             </div>
         </div>
     </nav>

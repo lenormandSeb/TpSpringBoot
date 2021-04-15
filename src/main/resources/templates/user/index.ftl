@@ -3,8 +3,8 @@
 <#if errors??>
     ${errors}    
 </#if>
-<#if MonCookie??>
-    ${MonCookie}
+<#if Cookie??>
+    ${Cookie}
 </#if>
 <#if items??>
 <#assign i = items?size>

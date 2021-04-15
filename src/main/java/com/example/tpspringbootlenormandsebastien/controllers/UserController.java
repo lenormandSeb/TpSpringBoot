@@ -19,7 +19,7 @@ public class UserController extends BaseCrudController<User, UserDto> {
     public static final String TEMPLATE_NAME = "user";
     public static final String BASE_ROUTE = "user";
     protected static final String CONNECT_ROUTE = "/connect/{id}";
-    protected static final String FLASH_ERROR = "errors";
+
     public UserController()
     {
         super(TEMPLATE_NAME);
@@ -33,11 +33,9 @@ public class UserController extends BaseCrudController<User, UserDto> {
     public String connectAsUser(@PathVariable final Long id, final Model model, final HttpServletResponse response, final RedirectAttributes attributes)
     {
         try {
-            Cookie cookie = new Cookie("userid", "user-id:" + id);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(false);
-            cookie.setMaxAge(3600);
-            response.addCookie(cookie);   
+            Cookie cookie = new Cookie("userid", "user-id-" + id);
+            cookie.setPath("/");
+            response.addCookie(cookie);
         } catch (Exception e) {
             attributes.addFlashAttribute(FLASH_ERROR, e.getMessage());
         }

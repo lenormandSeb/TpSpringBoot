@@ -1,18 +1,15 @@
 package com.example.tpspringbootlenormandsebastien.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.tpspringbootlenormandsebastien.entities.BaseEntity;
-import com.example.tpspringbootlenormandsebastien.entities.Livres;
-import com.example.tpspringbootlenormandsebastien.entities.Role;
-import com.example.tpspringbootlenormandsebastien.entities.User;
-import com.example.tpspringbootlenormandsebastien.services.LivresService;
-import com.example.tpspringbootlenormandsebastien.services.RoleService;
-import com.example.tpspringbootlenormandsebastien.services.UserService;
+import com.example.tpspringbootlenormandsebastien.entities.*;
+import com.example.tpspringbootlenormandsebastien.services.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,6 +26,7 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
     protected static final String DETAILS_ROUTE = "/show/{id}";
     protected static final String DETAILS_TEMPLATE = "/show";
     protected static final String LOGOUT_ROUTE = "/logout";
+    protected static final String FLASH_ERROR = "errors";
     private final String REDIRECT_INDEX;
     private final String TEMPLATE_NAME;
 
@@ -64,14 +62,20 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
         if(attributes.getFlashAttributes().containsKey("errors")) {
             model.addAttribute("errors", attributes.getFlashAttributes().get("errors"));
         }
-        
-        if (request.getCookies() != null) {
-            for(Cookie cookie : request.getCookies()) {
-                if(cookie.getName().equals("userid")) {
-                    model.addAttribute("userid", cookie.getValue());
+
+        if(this.checkCookie(request)) {
+            //get User Session type by id in cookie (Can be more easier, but i don't want to be ;-) )
+            for (Cookie c : request.getCookies())
+            {
+                if(c.getName().contains("userid"))
+                {
+                    String[] splitString = c.getValue().split("-");
+                    model.addAttribute("sessionUser", splitString[splitString.length-1]);
+                    return "/" + "session" + "/index";
                 }
             }
         }
+
         if(repository.findAll().size() == 0 && TEMPLATE_NAME == "user")
         {
             model.addAttribute("count", 0);
@@ -88,6 +92,7 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
     public String logOut(final HttpServletResponse response) {
         Cookie deleteCookie = new Cookie("userid", null);
         deleteCookie.setMaxAge(0);
+        deleteCookie.setPath("/");
         response.addCookie(deleteCookie);
 
         return "redirect:" + "/" + "user" + "/index";
@@ -136,5 +141,23 @@ public abstract class BaseCrudController<T extends BaseEntity, DTO>{
         this.repository.save(item);
         
         return this.REDIRECT_INDEX;
+    }
+
+    public boolean checkCookie(final HttpServletRequest request)
+    {
+        Boolean haveCookie = false;
+
+        if(request.getCookies() != null)
+        {
+            for(Cookie cookie : request.getCookies())
+            {
+                if(cookie.getName().contains("userid"))
+                {
+                    haveCookie = true;
+                }
+            }
+        }
+
+        return haveCookie;
     }
 }
